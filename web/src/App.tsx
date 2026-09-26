@@ -8,13 +8,14 @@ type Layer = "flow" | "deps" | "coord";
 
 export default function App() {
   const [layer, setLayer] = useState<Layer>("flow");
+  const [status, setStatus] = useState<{ peak: number }>({ peak: 0 });
   return (
     <div style={{ height: "100vh", display: "flex", flexDirection: "column", background: "var(--bg)" }}>
       <TopBar layer={layer} setLayer={setLayer} />
       <div style={{ flex: 1, display: "grid", gridTemplateColumns: "180px 1fr 220px", minHeight: 0 }}>
         <LeftRail />
-        <MapZone layer={layer} />
-        <RightRail />
+        <MapZone layer={layer} onStatus={setStatus} />
+        <RightRail status={status} />
       </div>
     </div>
   );
@@ -86,12 +87,17 @@ function RailItem({ color, label }: { color?: string; label: string }) {
   );
 }
 
-function MapZone({ layer }: { layer: Layer }) {
+function MapZone({ layer, onStatus }: { layer: Layer; onStatus: (s: { peak: number }) => void }) {
   return (
     <div style={{ position: "relative", overflow: "hidden",
       background: "radial-gradient(circle at 35% 40%, var(--surface), var(--surface-2))" }}>
-      {layer === "flow" && <GridMap />}
-      {layer === "deps" && <DepsView />}
+      {layer === "flow" && <GridMap onStatus={onStatus} />}
+      {layer === "deps" && (
+        <div style={{ height: "100%", display: "grid", placeItems: "center",
+          color: "var(--text-mute)", fontFamily: "var(--mono)", fontSize: 13 }}>
+          dependencies view coming soon
+        </div>
+      )}
       {layer === "coord" && (
         <div style={{ height: "100%", display: "grid", placeItems: "center",
           color: "var(--text-mute)", fontFamily: "var(--mono)", fontSize: 13 }}>
@@ -102,13 +108,39 @@ function MapZone({ layer }: { layer: Layer }) {
   );
 }
 
-function RightRail() {
+function RightRail({ status }: { status: { peak: number } }) {
+  const peak = status.peak;
+  const pct = Math.round(peak * 100);
+  let label = "GRID STABLE", color = "var(--teal)";
+  if (peak > 1) { label = "OVERLOAD"; color = "var(--red)"; }
+  else if (peak > 0.85) { label = "GRID STRAINED"; color = "var(--amber)"; }
+
   return (
     <div style={{ background: "var(--panel)", padding: 14, display: "flex", flexDirection: "column", gap: 10 }}>
-      <Metric k="network status" v="—" color="var(--text-on-dark)" />
+      <Metric k="network status" v={label} color={color} />
+      <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ flex: 1 }}><Metric k="peak load" v={`${pct}%`} color={color} /></div>
+        <div style={{ flex: 1 }}><Metric k="lines hot" v={peak > 0.85 ? "1+" : "0"} color="var(--text-on-dark)" /></div>
+      </div>
+      {peak > 1 && (
+        <div style={{ background: "var(--panel-2)", border: "1px solid #5C2A2A", borderRadius: 10,
+          padding: "10px 12px", marginTop: 4 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ color: "var(--red)", fontSize: 13 }}>▲</span>
+            <span style={{ color: "var(--red)", fontSize: 12, fontWeight: 500, fontFamily: "var(--mono)" }}>
+              overload detected
+            </span>
+          </div>
+          <div style={{ fontSize: 10, color: "var(--text-dim)", marginTop: 4, fontFamily: "var(--mono)" }}>
+            demand exceeds line capacity
+          </div>
+        </div>
+      )}
       <div style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--mono)",
-        textTransform: "uppercase", letterSpacing: 1, marginTop: 4 }}>coordination</div>
-      <div style={{ fontSize: 12, color: "var(--text-dim)", fontFamily: "var(--mono)" }}>opportunities appear here</div>
+        textTransform: "uppercase", letterSpacing: 1, marginTop: 4 }}>reading</div>
+      <div style={{ fontSize: 11, color: "var(--text-dim)", fontFamily: "var(--mono)", lineHeight: 1.6 }}>
+        drag "summer heat" to raise demand across the grid and watch loads climb.
+      </div>
     </div>
   );
 }

@@ -41,3 +41,12 @@ def get_dependencies():
 @app.post("/dependencies/cascade")
 def dependencies_cascade(payload: dict):
     return dependencies.cascade_levels(data.projects(), payload["failed_id"])
+
+@app.post("/powerflow/demand")
+def powerflow_demand(payload: dict):
+    scale = payload.get("scale", 1.0)
+    nodes = [dict(n) for n in data.nodes()]
+    for n in nodes:
+        if n["load_mw"] < 0:
+            n["load_mw"] *= scale
+    return powerflow.solve(nodes, data.projects())
