@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Network from "./Network";
+import MapView from "./MapView";
 
 type Layer = "flow" | "deps" | "coord";
 
@@ -85,9 +86,9 @@ function RailItem({ color, label }: { color?: string; label: string }) {
 
 function MapZone({ layer }: { layer: Layer }) {
   return (
-    <div style={{ position: "relative",
+    <div style={{ position: "relative", overflow: "hidden",
       background: "radial-gradient(circle at 35% 40%, var(--surface), var(--surface-2))" }}>
-      {layer === "flow" ? <Network /> : (
+      {layer === "flow" ? <MapView /> : (
         <div style={{ height: "100%", display: "grid", placeItems: "center",
           color: "var(--text-mute)", fontFamily: "var(--mono)", fontSize: 13 }}>
           {layer} view coming soon

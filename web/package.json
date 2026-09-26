@@ -12,6 +12,7 @@
   "dependencies": {
     "d3": "^7.9.0",
     "framer-motion": "^13.4.4",
+    "maplibre-gl": "^6.11.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "zustand": "^5.0.15"
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/d3": "^7.4.3",
+    "@types/geojson": "^7946.0.16",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
