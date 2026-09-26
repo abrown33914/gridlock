@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import data
 import powerflow
+import dependencies
 
 app = FastAPI(title="Gridlock")
 
@@ -32,3 +33,11 @@ def get_powerflow():
 def powerflow_whatif(added_line: dict):
     lines = data.projects() + [added_line]
     return powerflow.solve(data.nodes(), lines)
+
+@app.get("/dependencies")
+def get_dependencies():
+    return dependencies.graph_json(data.projects())
+
+@app.post("/dependencies/cascade")
+def dependencies_cascade(payload: dict):
+    return dependencies.cascade_levels(data.projects(), payload["failed_id"])

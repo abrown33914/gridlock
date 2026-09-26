@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Network from "./Network";
 import MapView from "./MapView";
+import DepsView from "./DepsView";
 
 type Layer = "flow" | "deps" | "coord";
 
@@ -88,10 +89,12 @@ function MapZone({ layer }: { layer: Layer }) {
   return (
     <div style={{ position: "relative", overflow: "hidden",
       background: "radial-gradient(circle at 35% 40%, var(--surface), var(--surface-2))" }}>
-      {layer === "flow" ? <MapView /> : (
+      {layer === "flow" && <MapView />}
+      {layer === "deps" && <DepsView />}
+      {layer === "coord" && (
         <div style={{ height: "100%", display: "grid", placeItems: "center",
           color: "var(--text-mute)", fontFamily: "var(--mono)", fontSize: 13 }}>
-          {layer} view coming soon
+          coordination view coming soon
         </div>
       )}
     </div>

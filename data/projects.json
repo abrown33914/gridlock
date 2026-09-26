@@ -157,6 +157,52 @@
       "slack_months": 6,
       "cost_musd": 48,
       "source": "seeded (interutility tie \u2013 Duke/TECO interconnect)"
+    },
+        {
+      "id": "duke_clermont_expand",
+      "name": "Clermont Substation Expansion",
+      "utility": "Duke",
+      "kind": "substation",
+      "node": "clermont_sub",
+      "geometry": [[-81.773, 28.549]],
+      "capacity_mw": 0,
+      "reactance": null,
+      "start": "2027-06",
+      "end": "2028-03",
+      "slack_months": 5,
+      "cost_musd": 28,
+      "source": "seeded (dependency chain)"
+    },
+    {
+      "id": "duke_clermont_feeder",
+      "name": "Clermont 138kV Feeder",
+      "utility": "Duke",
+      "kind": "line",
+      "from_node": "clermont_sub",
+      "to_node": "apopka_sub",
+      "geometry": [[-81.773, 28.549], [-81.510, 28.676]],
+      "capacity_mw": 180,
+      "reactance": 0.11,
+      "start": "2028-04",
+      "end": "2029-01",
+      "slack_months": 4,
+      "cost_musd": 35,
+      "source": "seeded (depends on Clermont expansion)"
+    },
+    {
+      "id": "duke_apopka_upgrade",
+      "name": "Apopka Transformer Upgrade",
+      "utility": "Duke",
+      "kind": "upgrade",
+      "host_node": "apopka_sub",
+      "geometry": [[-81.510, 28.676]],
+      "capacity_mw": 0,
+      "reactance": null,
+      "start": "2029-02",
+      "end": "2029-10",
+      "slack_months": 3,
+      "cost_musd": 18,
+      "source": "seeded (depends on Clermont feeder)"
     }
   ]
 }
