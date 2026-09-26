@@ -1,19 +1,25 @@
 :root {
-  --bg: #0f1115;
-  --surface: #171a21;
-  --surface-2: #1e222b;
-  --border: #282d38;
-  --text: #e6e9ef;
-  --text-dim: #8b93a7;
-  --text-mute: #5b6273;
-  --accent: #4a9eff;
-  --green: #3ddc97;
-  --amber: #ffb547;
-  --red: #ff5470;
-  --duke: #4a9eff;
-  --teco: #ff8a5b;
-  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --bg: #F7F5F1;
+  --panel: #14110E;
+  --panel-2: #1E1913;
+  --panel-border: #2A251E;
+  --surface: #FBF8F3;
+  --surface-2: #F0EBE3;
+  --border: #E2DACE;
+  --text: #14110E;
+  --text-dim: #8A7E6D;
+  --text-mute: #A99E8C;
+  --text-on-dark: #F7F5F1;
+  --amber: #F59E0B;
+  --orange: #EA580C;
+  --teal: #14B8A6;
+  --teal-deep: #04342C;
+  --red: #F43F5E;
+  --duke: #EA580C;
+  --teco: #F59E0B;
+  --mono: 'Space Mono', ui-monospace, monospace;
+  --sans: 'Raleway', system-ui, -apple-system, sans-serif;
+  --display: 'Krona One', var(--sans);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
